@@ -22,6 +22,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.mob.PhantomEntity;
 import net.minecraft.entity.passive.TameableEntity;
@@ -128,6 +129,10 @@ public abstract class PlayerEntityRendererMixin extends LivingEntityRenderer<Abs
             if(identityRenderer instanceof BipedEntityRenderer) {
                 identity_setBipedIdentityModelPose((AbstractClientPlayerEntity) player, identity, (BipedEntityRenderer) identityRenderer);
             }
+
+
+            //If player is a spectator or has invisibility, set identity to invisible
+            identity.setInvisible(player.isInvisible());
 
             identityRenderer.render(identity, f, g, matrixStack, vertexConsumerProvider, i);
 
