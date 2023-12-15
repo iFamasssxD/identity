@@ -75,9 +75,13 @@ public abstract class PlayerEntityRendererMixin extends LivingEntityRenderer<Abs
             identity.preferredHand = player.preferredHand;
             identity.setOnGround(player.isOnGround());
             identity.setVelocity(player.getVelocity());
-
+            identity.hurtTime = player.hurtTime;
+            identity.maxHurtTime = player.maxHurtTime;
             ((EntityAccessor) identity).setVehicle(player.getVehicle());
             ((EntityAccessor) identity).setTouchingWater(player.isTouchingWater());
+
+            //Set invisibility based on player status
+            identity.setInvisible(player.isInvisible());
 
             // phantoms' pitch is inverse for whatever reason
             if(identity instanceof PhantomEntity) {
@@ -129,10 +133,6 @@ public abstract class PlayerEntityRendererMixin extends LivingEntityRenderer<Abs
             if(identityRenderer instanceof BipedEntityRenderer) {
                 identity_setBipedIdentityModelPose((AbstractClientPlayerEntity) player, identity, (BipedEntityRenderer) identityRenderer);
             }
-
-
-            //If player is a spectator or has invisibility, set identity to invisible
-            identity.setInvisible(player.isInvisible());
 
             identityRenderer.render(identity, f, g, matrixStack, vertexConsumerProvider, i);
 
